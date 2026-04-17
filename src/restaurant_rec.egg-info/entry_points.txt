@@ -1,0 +1,2 @@
+[console_scripts]
+restaurant-rec = restaurant_rec.phase2.cli:main

@@ -1,0 +1,9 @@
+.env
+__pycache__/
+*.pyc
+.venv/
+.idea/
+.vscode/
+data/.hf_cache/
+data/restaurants.parquet
+frontend/.env.local

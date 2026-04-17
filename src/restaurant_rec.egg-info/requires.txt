@@ -1,0 +1,6 @@
+datasets>=2.20
+pandas>=2.2
+pyarrow>=16.0
+requests>=2.32.2
+fastapi>=0.110
+uvicorn>=0.27
