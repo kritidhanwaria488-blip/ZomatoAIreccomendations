@@ -1,0 +1,45 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+.pytest_cache
+.mypy_cache
+
+# Virtual environments
+venv/
+.env
+.env.example
+
+# IDE
+.vscode
+.idea
+
+# Logs
+logs/
+*.log
+
+# Railway/Temporary files
+ROLLBACK.md
+TODO_TOMORROW.md
+check_data.py
+railway.toml
+railway.json
+nixpacks.toml
+
+# Frontend (separate deployment)
+frontend/
+
+# Documentation (not needed for runtime)
+docs/
+*.md
+
+# But KEEP data directory for the app
+!data/
+!data/restaurants.parquet

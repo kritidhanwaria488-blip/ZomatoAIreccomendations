@@ -259,6 +259,7 @@ def create_app(
         "http://127.0.0.1:3000",
         "https://localhost:3000",
         "https://127.0.0.1:3000",
+        "https://zomato-a-ireccomendations.vercel.app"
     ]
     # Add custom production origin from env var
     if os.getenv("FRONTEND_URL"):
