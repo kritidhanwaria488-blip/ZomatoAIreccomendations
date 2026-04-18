@@ -258,6 +258,7 @@ def create_app(
         allow_origins=[
             "http://localhost:3000",
             "http://127.0.0.1:3000",
+            "https://zomato-a-ireccomendations-caahxxlw8.vercel.app",
         ],
         allow_credentials=False,
         allow_methods=["*"],
@@ -392,4 +393,3 @@ def create_app(
 
 # Expose only the app factory for uvicorn
 __all__ = ["create_app"]
-
