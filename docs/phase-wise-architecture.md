@@ -261,6 +261,83 @@ NEXT_PUBLIC_API_BASE_URL=https://restaurant-rec-backend.streamlit.app
    - Backend scales based on usage
    - Clear API contract between layers
 
+### ⚠️ Important Limitation
+
+**Streamlit is NOT designed to be an API backend** for separate frontends. It will cause **CORS errors** when Vercel tries to call Streamlit endpoints (`/locations`, `/recommendations`).
+
+**The Streamlit+Vercel architecture shown above will NOT work properly.**
+
+---
+
+## Alternative Deployment Architecture (Recommended)
+
+### Working Architecture: Railway + Vercel
+
+Since Streamlit cannot serve as a proper API backend, use this instead:
+
+### Backend Deployment (Railway)
+
+**Platform:** Railway (railway.app)  
+**Purpose:** FastAPI REST API service  
+**Implementation:**
+- FastAPI with proper CORS support
+- Full REST API endpoints
+- Environment variable configuration
+- Automatic HTTPS
+
+**Deployment Steps:**
+1. Create account at railway.app
+2. Connect GitHub repo
+3. Add environment variable: `GROQ_API_KEY`
+4. Deploy (auto-detects `railway.json`)
+
+**URL:** `https://restaurant-rec-api.up.railway.app`
+
+### Frontend Deployment (Vercel)
+
+**Platform:** Vercel (vercel.com)  
+**Purpose:** Next.js web application  
+**Implementation:**
+- Same Next.js frontend code
+- Calls Railway backend instead of Streamlit
+- No CORS issues
+
+**Deployment Steps:**
+1. Import repo in Vercel
+2. Set Root Directory: `frontend`
+3. Add environment variable:
+   - `NEXT_PUBLIC_API_BASE_URL=https://restaurant-rec-api.up.railway.app`
+4. Deploy
+
+**URL:** `https://restaurant-rec-frontend.vercel.app`
+
+### Working Architecture Diagram
+
+```
+┌─────────────────┐      CORS       ┌──────────────────┐      API      ┌──────────┐
+│                 │  (working!)    │                  │              │          │
+│  User Browser   │───────────────▶│  Railway         │─────────────▶│  Groq    │
+│                 │                │  (FastAPI)       │              │  LLM     │
+└─────────────────┘                └────────┬─────────┘              └──────────┘
+       ▲                                    │
+       │         ┌──────────────────┐        │
+       └─────────│  Vercel          │        │
+                 │  (Next.js)       │        │
+                 │  Frontend        │        │
+                 └──────────────────┘        │
+                                             ▼
+                                    ┌─────────────────┐
+                                    │  Parquet Store  │
+                                    │  (12K+ restaurants)
+                                    └─────────────────┘
+```
+
+### Recommendation
+
+**Use Railway + Vercel** for a fully working deployment.
+
+**Only use Streamlit** if you want a single unified interface (Streamlit handles both UI and logic).
+
 ---
 
 ## Required source layout

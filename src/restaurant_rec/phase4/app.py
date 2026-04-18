@@ -252,14 +252,23 @@ def create_app(
 
     app = FastAPI(title="RestaurantRec API", version="0.1.0")
 
-    # Allow Next.js dev server (Phase 4 frontend) to call this API.
+    # Allow Next.js dev server and production Vercel domains.
+    import os
+    origins = [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "https://localhost:3000",
+        "https://127.0.0.1:3000",
+    ]
+    # Add custom production origin from env var
+    if os.getenv("FRONTEND_URL"):
+        origins.append(os.getenv("FRONTEND_URL"))
+    # Allow all Vercel subdomains (for preview deployments)
+    origins.append("https://*.vercel.app")
+    
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=[
-            "http://localhost:3000",
-            "http://127.0.0.1:3000",
-            "https://zomato-a-ireccomendations-caahxxlw8.vercel.app",
-        ],
+        allow_origins=origins,
         allow_credentials=False,
         allow_methods=["*"],
         allow_headers=["*"],
